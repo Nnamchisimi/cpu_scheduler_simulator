@@ -15,13 +15,13 @@ int main(int argc, char **argv){
     cout<<"CPU Scheduler MENU"<<endl;
    
     do
-    {    
+    {    cout<<"Please Enter your choice: ";
+          
             cout<<"1:Scheduling Method(None)"<<endl;
             cout<<"2:Preemptive Mode (off)"<<endl;
             cout<<"3:Show Result"<<endl;
             cout<<"4:End of program"<<endl;
-            cout<<"Please Enter your choice: ";
-            cin>>input;
+              cin>>input;
             switch(input)
             {
                 case 1:
@@ -31,21 +31,28 @@ int main(int argc, char **argv){
                  cout<<"2. First come,First served scheduling"<<endl;
                  cout<<"3. Shortest-Job -First scheduling"<<endl;
                  cout<<"4. priority scheduling"<<endl;
-               cout<<"5. Round-Robin scheduling"<<endl;
-
-                 cout<<"please enter the type of scheduling:"<<endl;
+                cout<<"5. Round-Robin scheduling"<<endl;
+                
+                
                   cin>>x;
                switch(x)
                {
                   
                     case 1:
-                    FCFS();
+                    cout<<" are you sure you do not want to choose any scheduling method ?"<<endl;
+                    break;
                     case 2:
-                    SJF();
+                    FCFS();  
+                    break;
                     case 3:
-                    pr();
+                      SJF();
+                    break;
                     case 4:
-                    ROUNDROBIN();
+                     pr();
+                    break;
+                    case 5:
+                   ROUNDROBIN();
+                   break;
                }
 
                     break;
