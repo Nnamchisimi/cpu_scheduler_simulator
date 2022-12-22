@@ -1,14 +1,27 @@
 #include <iostream>
+#include <unistd.h>
 using namespace std;
+
 
 void FCFS();
 void SJF();
 void pr();
 void ROUNDROBIN();
-int main(int argc, char **argv){
-     int input;
-    int x;
-    cout<<"*******Begining of Project********\n";
+int main(int argc, char *argv[]){
+
+int input, opt, x;
+while ((opt = getopt(argc, argv, "fo:")) != -1) {
+        switch (opt) {
+        case 'f':
+            cout<<"Input file";
+            break;
+        case 'o':
+            cout<<"output file";
+            break;
+        }}
+   
+
+          cout<<"*******Begining of Project********\n";
                   
     //TODO Collect command line arguement...
     //If -f and -o is missing throw error and quit program
@@ -25,7 +38,6 @@ int main(int argc, char **argv){
             switch(input)
             {
                 case 1:
-                   // cout<<"i seleted nnnn";
               cout<<"choose a scheduling Method: "<<endl;
                  cout<<"1. None: none of the scheduling Method is chosen"<<endl;
                  cout<<"2. First come,First served scheduling"<<endl;
