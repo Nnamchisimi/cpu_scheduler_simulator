@@ -3,10 +3,43 @@
 using namespace std;
 
 
+//functions
 void FCFS();
 void SJF();
 void pr();
 void ROUNDROBIN();
+
+// Linked list declaration
+
+struct node{
+    int burst_time;
+    int arrival_time;
+    int priority;
+    struct node *next;
+};
+
+struct node * createNode(int burst_time, int arrival_time, int priority)
+{
+	struct node* temp=NULL;
+	
+	temp=(struct node*)malloc(sizeof(node));
+	temp->burst_time = burst_time;
+    temp->arrival_time = arrival_time;
+    temp->priority = priority;
+	temp->next=NULL;
+	return temp;
+}
+
+struct node* insertFront(struct node* hed, int item)
+{
+	struct node* temp;
+//	temp=createNode(item);
+	
+	temp->next=hed;
+	hed=temp;
+	return hed;
+}
+
 int main(int argc, char *argv[]){
 
 int input, opt, x;
@@ -38,12 +71,12 @@ while ((opt = getopt(argc, argv, "fo:")) != -1) {
             switch(input)
             {
                 case 1:
-              cout<<"choose a scheduling Method: "<<endl;
-                 cout<<"1. None: none of the scheduling Method is chosen"<<endl;
-                 cout<<"2. First come,First served scheduling"<<endl;
-                 cout<<"3. Shortest-Job -First scheduling"<<endl;
-                 cout<<"4. priority scheduling"<<endl;
-                cout<<"5. Round-Robin scheduling"<<endl;
+                    cout<<"choose a scheduling Method: "<<endl;
+                    cout<<"1. None: none of the scheduling Method is chosen"<<endl;
+                    cout<<"2. First come,First served scheduling"<<endl;
+                    cout<<"3. Shortest-Job -First scheduling"<<endl;
+                    cout<<"4. priority scheduling"<<endl;
+                    cout<<"5. Round-Robin scheduling"<<endl;
                 
                 
                   cin>>x;
@@ -51,23 +84,23 @@ while ((opt = getopt(argc, argv, "fo:")) != -1) {
                {
                   
                     case 1:
-                    cout<<" are you sure you do not want to choose any scheduling method ?"<<endl;
-                    break;
+                        cout<<" are you sure you do not want to choose any scheduling method ?"<<endl;
+                        break;
                     case 2:
-                    FCFS();  
-                    break;
+                        FCFS();  
+                        break;
                     case 3:
-                      SJF();
-                    break;
+                        SJF();
+                        break;
                     case 4:
-                     pr();
+                        pr();
                     break;
                     case 5:
-                   ROUNDROBIN();
-                   break;
+                        ROUNDROBIN();
+                        break;
                }
 
-                    break;
+                break;
                 case 2:
                     break;
                 case 3:
@@ -78,9 +111,6 @@ while ((opt = getopt(argc, argv, "fo:")) != -1) {
                     break;
                    
             }
-   if(input==1){
-               
-                 }
         /* code */
         
     } while (input!=4);
