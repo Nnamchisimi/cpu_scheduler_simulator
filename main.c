@@ -1,13 +1,15 @@
-#include <iostream>
+#include <stdio.h>
+#include<getopt.h>
 #include <unistd.h>
-using namespace std;
-
-
+#include <stdbool.h>
+#include <stdlib.h>
 //functions
 void FCFS();
 void SJF();
 void pr();
 void ROUNDROBIN();
+void Grantchart();
+void toread_file();
 
 // Linked list declaration
 
@@ -16,7 +18,8 @@ struct node{
     int arrival_time;
     int priority;
     struct node *next;
-};
+}node;
+
 
 struct node * createNode(int burst_time, int arrival_time, int priority)
 {
@@ -30,61 +33,75 @@ struct node * createNode(int burst_time, int arrival_time, int priority)
 	return temp;
 }
 
-struct node* insertFront(struct node* hed, int item)
+struct node* insertBack(struct node* head, int item)
 {
 	struct node* temp;
 //	temp=createNode(item);
 	
-	temp->next=hed;
-	hed=temp;
-	return hed;
+	temp->next=head;
+	head=temp;
+	return head;
 }
 
-int main(int argc, char *argv[]){
+
+int main(int argc, char* argv[]){
 
 int input, opt, x;
-while ((opt = getopt(argc, argv, "fo:")) != -1) {
-        switch (opt) {
+char* in_file=NULL; char* out_file=NULL;
+FILE *file=NULL;
+
+while ((opt = getopt(argc, argv, "f:o:")) != -1) {
+        switch(opt) {
         case 'f':
-            cout<<"Input file";
+                in_file = optarg; 
+                printf("%s",in_file);
             break;
         case 'o':
-            cout<<"output file";
+            out_file= optarg;
+            printf("%s",out_file);
             break;
-        }}
-   
+        default:
+            printf("Please provide input and output files");
 
-          cout<<"*******Begining of Project********\n";
+      
+        }
+        }
+
+   
+   // file = fopen("input.txt", "r");
+  
+
+          printf("*******Begining of Project********\n");
                   
     //TODO Collect command line arguement...
     //If -f and -o is missing throw error and quit program
-    cout<<"CPU Scheduler MENU"<<endl;
+    printf("CPU Scheduler MENU \n");
    
     do
-    {    cout<<"Please Enter your choice: ";
+    {    printf("Please Enter your choice: \n");
           
-            cout<<"1:Scheduling Method(None)"<<endl;
-            cout<<"2:Preemptive Mode (off)"<<endl;
-            cout<<"3:Show Result"<<endl;
-            cout<<"4:End of program"<<endl;
-              cin>>input;
+            printf("1:Scheduling Method(None)\n");
+            printf("2:Preemptive Mode (off)\n");
+            printf("3:Show Result\n");
+            printf("4:End of program\n");
+              scanf("%d",&input);
             switch(input)
             {
                 case 1:
-                    cout<<"choose a scheduling Method: "<<endl;
-                    cout<<"1. None: none of the scheduling Method is chosen"<<endl;
-                    cout<<"2. First come,First served scheduling"<<endl;
-                    cout<<"3. Shortest-Job -First scheduling"<<endl;
-                    cout<<"4. priority scheduling"<<endl;
-                    cout<<"5. Round-Robin scheduling"<<endl;
+                    printf("choose a scheduling Method: \n");
+                    printf("1. None: none of the scheduling Method is chosen \n");
+                    printf("2. First come,First served scheduling \n");
+                    printf("3. Shortest-Job -First scheduling \n");
+                    printf("4. priority scheduling \n");
+                    printf("5. Round-Robin scheduling\n");
                 
                 
-                  cin>>x;
+                  scanf("%d",&x);
                switch(x)
                {
                   
                     case 1:
-                        cout<<" are you sure you do not want to choose any scheduling method ?"<<endl;
+                        printf(" are you sure you do not want to choose any scheduling method ?");
                         break;
                     case 2:
                         FCFS();  
@@ -118,17 +135,22 @@ while ((opt = getopt(argc, argv, "fo:")) != -1) {
     return 0;
 }
 
+
+//void Grantchart(Node *head ,int process)
+
 void FCFS( ){
-    cout<<"First come First Serve"<<endl;
+    printf("First come First Serve");
+   // struct node*
+
     
 }
 void SJF(){
-    cout<<"shortest Job first "<<endl;
+    printf("shortest Job first ");
 }
 void pr(){
-    cout<<"priorityy scheduling"<<endl;
+    printf("priorityy scheduling");
 }
 void ROUNDROBIN(){
-    cout<<"Round Robin scheduling"<<endl;
+    printf("Round Robin scheduling");
 
 }
