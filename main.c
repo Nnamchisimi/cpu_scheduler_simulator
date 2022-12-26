@@ -49,21 +49,33 @@ int main(int argc, char* argv[]){
 int input, opt, x;
 char* in_file=NULL; char* out_file=NULL;
 FILE *file=NULL;
+char single_line[1024];
+int burst,arrival,priority;
 
 while ((opt = getopt(argc, argv, "f:o:")) != -1) {
         switch(opt) {
         case 'f':
                 in_file = optarg; 
-                printf("%s",in_file);
+                //printf("%s",in_file);
+                
+
+    
+                if ((file = fopen(in_file, "r")) != NULL){  
+                    
+                    while (fgets(single_line, 1024, file) != NULL) {
+                        
+                        sscanf(single_line,"%d:%d:%d\n",&burst,&arrival,&priority);
+                        printf("%d:%d:%d\n",burst,arrival,priority);
+                    }
+                    fclose(file);
+                }
             break;
         case 'o':
             out_file= optarg;
-            printf("%s",out_file);
+            //printf("%s",out_file);
             break;
         default:
             printf("Please provide input and output files");
-
-      
         }
         }
 
