@@ -18,9 +18,11 @@ struct node{
     int arrival_time;
     int priority;
     struct node *next;
-}node;
+};
+node;
 
 
+struct node * jobs=NULL;
 struct node * createNode(int burst_time, int arrival_time, int priority)
 {
 	struct node* temp=NULL;
@@ -40,6 +42,17 @@ struct node* insertBack(struct node* head, int item)
 	
 	temp->next=head;
 	head=temp;
+	return head;
+}struct node *deleteFront(struct node *head)
+{
+	struct node *temp;
+	if(head==NULL)
+	return head;
+	
+	temp=head;
+	head=head->next;
+	free(temp);
+	
 	return head;
 }
 
