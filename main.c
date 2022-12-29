@@ -19,15 +19,16 @@ struct node{
     int priority;
     struct node *next;
 };
-node;
+
 
 
 struct node * jobs=NULL;
 struct node * createNode(int burst_time, int arrival_time, int priority)
+
 {
 	struct node* temp=NULL;
 	
-	temp=(struct node*)malloc(sizeof(node));
+	temp=(struct node*)malloc(sizeof(struct node));
 	temp->burst_time = burst_time;
     temp->arrival_time = arrival_time;
     temp->priority = priority;
@@ -35,15 +36,37 @@ struct node * createNode(int burst_time, int arrival_time, int priority)
 	return temp;
 }
 
-struct node* insertBack(struct node* head, int item)
+struct node* insertBack(struct node* head, int burst_time, int arrival_time, int priority)
 {
-	struct node* temp;
+	struct node* temp, *ht;
+    temp=createNode(burst_time,arrival_time,priority);
+    if(head==NULL)
+    {
+        head=temp;
+        return head;
+    }
+    ht= head;
+    while(ht->next !=NULL)
+    ht=ht-> next;
+    ht->next=temp;
+    return head;
 //	temp=createNode(item);
 	
-	temp->next=head;
-	head=temp;
-	return head;
-}struct node *deleteFront(struct node *head)
+}
+void show( struct node *head)
+{
+    if(head==NULL)
+        printf("\n enter list!!");
+    struct node *temp=head;
+    while(temp !=NULL)
+    {
+        printf("%d time waited: %d, %d\n", temp-> burst_time,temp->arrival_time,temp->priority);
+        temp =temp-> next;
+    }
+    
+printf("\n");
+}
+struct node *deleteFront(struct node *head)
 {
 	struct node *temp;
 	if(head==NULL)
@@ -79,6 +102,7 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                         
                         sscanf(single_line,"%d:%d:%d\n",&burst,&arrival,&priority);
                         printf("%d:%d:%d\n",burst,arrival,priority);
+                        jobs = insertBack(jobs,burst, arrival, priority);
                     }
                     fclose(file);
                 }
@@ -122,11 +146,13 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                 
                 
                   scanf("%d",&x);
+                  show(jobs);
                switch(x)
                {
                   
                     case 1:
                         printf(" are you sure you do not want to choose any scheduling method ?");
+
                         break;
                     case 2:
                         FCFS();  
