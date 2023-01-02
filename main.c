@@ -18,6 +18,7 @@ struct node{
     int arrival_time;
     int priority;
     int waiting_time;
+    int id;
     
     struct node *next;
 };
@@ -28,7 +29,7 @@ struct time{
 
 
 struct node * jobs=NULL;
-struct node * createNode(int burst_time, int arrival_time, int priority)
+struct node * createNode(int id, int burst_time, int arrival_time, int priority)
 
 {
 	struct node* temp=NULL;
@@ -37,14 +38,15 @@ struct node * createNode(int burst_time, int arrival_time, int priority)
 	temp->burst_time = burst_time;
     temp->arrival_time = arrival_time;
     temp->priority = priority;
+    temp->id = id;
 	temp->next=NULL;
 	return temp;
 }
 
-struct node* insertBack(struct node* head, int burst_time, int arrival_time, int priority)
+struct node* insertBack(struct node* head, int id, int burst_time, int arrival_time, int priority)
 {
 	struct node* temp, *ht;
-    temp=createNode(burst_time,arrival_time,priority);
+    temp=createNode(id, burst_time,arrival_time,priority);
     if(head==NULL)
     {
         head=temp;
@@ -71,6 +73,18 @@ void show( struct node *head)
     
 printf("\n");
 }
+
+//print result
+void printResult(struct node *head){
+     struct node *tmp = head;
+     printf("Hello");
+     while (tmp !=NULL)
+     {
+        printf("P%d: %dms\n",tmp->id, tmp->arrival_time);
+     }
+     
+}
+
 struct node *deleteFront(struct node *head)
 {
 	struct node *temp;
@@ -102,12 +116,12 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
 
     
                 if ((file = fopen(in_file, "r")) != NULL){  
-                    
+                    int job_id =1;
                     while (fgets(single_line, 1024, file) != NULL) {
                         
                         sscanf(single_line,"%d:%d:%d\n",&burst,&arrival,&priority);
                         printf("%d:%d:%d\n",burst,arrival,priority);
-                        jobs = insertBack(jobs,burst, arrival, priority);
+                        jobs = insertBack(jobs,job_id++, burst, arrival, priority);
                     }
                     fclose(file);
                     
@@ -222,7 +236,8 @@ void FCFS( ){
             tmp->waiting_time = 0;
             simi=tmp->burst_time;
             tmp->waiting_time=0;
-            printf("%d, ",tmp->waiting_time);
+            //printf("%d, ",tmp->waiting_time);
+            printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
             tmp =tmp-> next;
         }
 
@@ -231,10 +246,12 @@ void FCFS( ){
         // tmp->next->waiting_time=tmp->burst_time-tmp->next->arrival_time;
         
         // count+=tmp->next->burst_time-tmp->arrival_time;
-        printf("%d, ",tmp->waiting_time);
+        // printf("%d, ",tmp->waiting_time);
+         printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
         tmp =tmp-> next;
     }
-    // printf("%d",count);
+    // printResult(tmp);
+    
 }
 void SJF(){
     printf("shortest Job first ");
