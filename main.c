@@ -17,9 +17,14 @@ struct node{
     int burst_time;
     int arrival_time;
     int priority;
+    int waiting_time;
+    
     struct node *next;
 };
-
+struct time{
+    int waiting_time;int awt;
+    struct time*next;
+};
 
 
 struct node * jobs=NULL;
@@ -105,6 +110,7 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                         jobs = insertBack(jobs,burst, arrival, priority);
                     }
                     fclose(file);
+                    
                 }
             break;
         case 'o':
@@ -139,14 +145,16 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                 case 1:
                     printf("choose a scheduling Method: \n");
                     printf("1. None: none of the scheduling Method is chosen \n");
-                    printf("2. First come,First served scheduling \n");
+                    printf("2. First come,First served scheduling [non-preemptive]\n");
                     printf("3. Shortest-Job -First scheduling \n");
-                    printf("4. priority scheduling \n");
-                    printf("5. Round-Robin scheduling\n");
-                
-                
+                    printf("4. Shortest-Job -First scheduling [non-preemptive]\n");
+                    printf("5. priority scheduling \n");
+                    printf("6. priority scheduling[non-preemptive] \n");
+                    printf("7. Round-Robin scheduling\n");
+                 
                   scanf("%d",&x);
                   show(jobs);
+                  
                switch(x)
                {
                   
@@ -158,14 +166,27 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                         FCFS();  
                         break;
                     case 3:
-                        SJF();
+                       
                         break;
                     case 4:
-                        pr();
+                     SJF();
+                      
                     break;
                     case 5:
-                        ROUNDROBIN();
+                     
+                     
+                        
                         break;
+                        case 6:
+                         pr();
+                        
+                        
+                        break;
+                        case 7:
+                        ROUNDROBIN();
+                        
+                        break;
+                       
                }
 
                 break;
@@ -190,10 +211,30 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
 //void Grantchart(Node *head ,int process)
 
 void FCFS( ){
-    printf("First come First Serve");
+    printf("First come First Serve\n");
    // struct node*
+   struct node *tmp = jobs;
+   int count=0,simi=0;
+    while(tmp !=NULL)
+    {
+        //count++;
+        if(tmp->arrival_time == 0){
+            tmp->waiting_time = 0;
+            simi=tmp->burst_time;
+            tmp->waiting_time=0;
+            printf("%d, ",tmp->waiting_time);
+            tmp =tmp-> next;
+        }
 
-    
+        tmp->waiting_time=simi-tmp->arrival_time;
+        simi+=tmp->burst_time;
+        // tmp->next->waiting_time=tmp->burst_time-tmp->next->arrival_time;
+        
+        // count+=tmp->next->burst_time-tmp->arrival_time;
+        printf("%d, ",tmp->waiting_time);
+        tmp =tmp-> next;
+    }
+    // printf("%d",count);
 }
 void SJF(){
     printf("shortest Job first ");
@@ -202,6 +243,8 @@ void pr(){
     printf("priorityy scheduling");
 }
 void ROUNDROBIN(){
-    printf("Round Robin scheduling");
-
+    int a;
+ printf("please Enter time quantum: \n");
+                    scanf("%d",&a);
+                
 }
