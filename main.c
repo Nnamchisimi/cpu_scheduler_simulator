@@ -97,6 +97,74 @@ struct node *deleteFront(struct node *head)
 	
 	return head;
 }
+void swap(struct node *a, struct node *b){
+    int t;
+    t=a->burst_time;
+    a->burst_time=b->burst_time;
+    b->burst_time=t;
+
+    t=a->arrival_time;
+    a->arrival_time=b->arrival_time;
+    b->arrival_time=t;
+
+    t=a->priority;
+    a->priority=b->priority;
+    b->priority=t;
+
+    t=a->waiting_time;
+    a->waiting_time=b->waiting_time;
+    b->waiting_time=t;
+    t=a->id;
+    a->id=b->id;
+    b->id=t;
+
+}
+
+struct node* sort_burst_time(struct node *head) {
+    int swapped;
+    struct node *current;
+    struct node *last = NULL;
+
+    // Check if the list is empty or has only one node
+    if (head == NULL )
+        return head;
+
+    
+   do {
+         swapped = 0;
+         current = head;
+       
+         while (current ->next!= last) {
+        //      // Check if the current node's burst time is greater than the next node's burst time
+              
+             if (current->burst_time > current->next->burst_time) {
+                // printf("we need swap\n");
+                swap(current,current->next);
+                 
+                  swapped=1;
+                  
+                  }
+                
+                  current=current->next;
+                       
+                  }
+                  last=current;
+            
+                
+    
+     } while (swapped);
+     
+    
+}
+
+void p(struct node *head){
+    while(head!=NULL){
+        printf("%d\n",head->burst_time);
+        head=head->next;
+    }
+    
+   
+}
 
 
 int main(int argc, char* argv[]){
@@ -167,7 +235,7 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                     printf("7. Round-Robin scheduling\n");
                  
                   scanf("%d",&x);
-                  show(jobs);
+                 // show(jobs);
                   
                switch(x)
                {
@@ -180,11 +248,17 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                         FCFS();  
                         break;
                     case 3:
-                       
+                        
                         break;
                     case 4:
                      SJF();
-                      
+                     printf("Shortest Job first\n");
+                     sort_burst_time(jobs);
+                     show(jobs);
+                     
+                    
+                      //struct node *sorted_list = sort_list(jobs);
+                      //show(sorted_list);
                     break;
                     case 5:
                      
@@ -209,6 +283,7 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                 case 3:
                     break;
                 case 4:
+                exit;
                     break;
                 default:
                     break;
@@ -227,8 +302,9 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
 void FCFS( ){
     printf("First come First Serve\n");
    // struct node*
+   int result;
    struct node *tmp = jobs;
-   int count=0,simi=0;
+   int count=0,simi=0,twt=0;
     while(tmp !=NULL)
     {
         //count++;
@@ -238,6 +314,7 @@ void FCFS( ){
             tmp->waiting_time=0;
             //printf("%d, ",tmp->waiting_time);
             printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
+            twt=twt+tmp->waiting_time;
             tmp =tmp-> next;
         }
 
@@ -248,15 +325,30 @@ void FCFS( ){
         // count+=tmp->next->burst_time-tmp->arrival_time;
         // printf("%d, ",tmp->waiting_time);
          printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
+         result=tmp->waiting_time;
+         twt=twt+tmp->waiting_time;
         tmp =tmp-> next;
     }
+    printf("Average waiting time: %dms\n",twt/5);
     // printResult(tmp);
     
 }
 void SJF(){
-    printf("shortest Job first ");
+ 
+ //   printf("shortest Job first ");
+//struct node* r=jobs;
+//while (r!=NULL){
+  //  printf("%d\n", r->burst_time);
+    //r=r->next;
+
+
+    //job= sort_burst_time(jobs);
+    //printf("%d",job);
+    //show(jobs);
+
 }
 void pr(){
+
     printf("priorityy scheduling");
 }
 void ROUNDROBIN(){
