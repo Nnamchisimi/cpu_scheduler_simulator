@@ -11,6 +11,7 @@ void ROUNDROBIN();
 void Grantchart();
 void toread_file();
 
+
 // Linked list declaration
 
 struct node{
@@ -22,6 +23,7 @@ struct node{
     
     struct node *next;
 };
+
 struct time{
     int waiting_time;int awt;
     struct time*next;
@@ -120,14 +122,14 @@ void swap(struct node *a, struct node *b){
 
 }
 
-struct node* sort_burst_time(struct node *head) {
+void sort_burst_time(struct node *head) {
     int swapped;
     struct node *current;
     struct node *last = NULL;
 
     // Check if the list is empty or has only one node
     if (head == NULL )
-        return head;
+        return;
 
     
    do {
@@ -154,7 +156,7 @@ struct node* sort_burst_time(struct node *head) {
     
      } while (swapped);
      
-    
+   
 }
 
 void p(struct node *head){
@@ -174,6 +176,7 @@ char* in_file=NULL; char* out_file=NULL;
 FILE *file=NULL;
 char single_line[1024];
 int burst,arrival,priority;
+
 
 while ((opt = getopt(argc, argv, "f:o:")) != -1) {
         switch(opt) {
@@ -252,7 +255,6 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                         break;
                     case 4:
                      SJF();
-                     printf("Shortest Job first\n");
                      sort_burst_time(jobs);
                      show(jobs);
                      
@@ -307,46 +309,43 @@ void FCFS( ){
    int count=0,simi=0,twt=0;
     while(tmp !=NULL)
     {
-        //count++;
+        count+1;
         if(tmp->arrival_time == 0){
             tmp->waiting_time = 0;
             simi=tmp->burst_time;
             tmp->waiting_time=0;
-            //printf("%d, ",tmp->waiting_time);
             printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
             twt=twt+tmp->waiting_time;
             tmp =tmp-> next;
         }
-
         tmp->waiting_time=simi-tmp->arrival_time;
         simi+=tmp->burst_time;
-        // tmp->next->waiting_time=tmp->burst_time-tmp->next->arrival_time;
-        
-        // count+=tmp->next->burst_time-tmp->arrival_time;
-        // printf("%d, ",tmp->waiting_time);
          printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
          result=tmp->waiting_time;
          twt=twt+tmp->waiting_time;
         tmp =tmp-> next;
     }
-    printf("Average waiting time: %dms\n",twt/5);
-    // printResult(tmp);
+    printf("Average waiting time: %.2fms\n",twt/5.0);
     
 }
 void SJF(){
- 
- //   printf("shortest Job first ");
-//struct node* r=jobs;
-//while (r!=NULL){
-  //  printf("%d\n", r->burst_time);
-    //r=r->next;
+    printf("shortest Job first ");
+      sort_burst_time(jobs);
+                     show(jobs);
+  int total;
+    int c=0,wt=0,twt=0,lbt=0;
+    while(jobs!=NULL){
+    if(jobs->arrival_time == 0){
+            jobs->waiting_time = 0;
+            
+    
 
-
-    //job= sort_burst_time(jobs);
-    //printf("%d",job);
-    //show(jobs);
-
+     
+    }
+    
 }
+}
+
 void pr(){
 
     printf("priorityy scheduling");
