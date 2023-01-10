@@ -21,6 +21,7 @@ struct node{
     int waiting_time;
     int id;
     
+    
     struct node *next;
 };
 
@@ -205,12 +206,12 @@ void p(struct node *head){
    
 }
 
-
+FILE *file=NULL,*ofile=NULL;
 int main(int argc, char* argv[]){
 
 int input, opt, x;
 char* in_file=NULL; char* out_file=NULL;
-FILE *file=NULL;
+FILE *file=NULL;//,*ofile=NULL;
 char single_line[1024];
 int burst,arrival,priority;
 
@@ -237,6 +238,7 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
             break;
         case 'o':
             out_file= optarg;
+          // ofile = fopen(out_file, "w");
             //printf("%s",out_file);
             break;
         default:
@@ -292,8 +294,8 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                         break;
                     case 4:
                      SJF();
-                     sort_burst_time(jobs);
-                     show(jobs);
+                     //sort_burst_time(jobs);
+                     //show(jobs);
                      
                     
                       //struct node *sorted_list = sort_list(jobs);
@@ -305,8 +307,8 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                         break;
                         case 6:
                          pr();
-                     sort_priority(jobs);
-                     show(jobs);
+                     //sort_priority(jobs);
+                     //show(jobs);
                      
                         
                         break;
@@ -341,6 +343,7 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
 
 void FCFS( ){
     printf("First come First Serve\n");
+    //fprintf(ofile,"\n First come First Serve\n");
    // struct node*
    int result;
    struct node *tmp = jobs;
@@ -353,34 +356,39 @@ void FCFS( ){
             simi=tmp->burst_time;
             tmp->waiting_time=0;
             printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
+            //fprintf(ofile,"P%d: %dms\n",tmp->id, tmp->waiting_time);
             twt=twt+tmp->waiting_time;
             tmp =tmp-> next;
         }
         tmp->waiting_time=simi-tmp->arrival_time;
         simi+=tmp->burst_time;
          printf("P%d: %dms\n",tmp->id, tmp->waiting_time);
+        //fprintf(ofile,"P%d: %dms\n",tmp->id, tmp->waiting_time);
          result=tmp->waiting_time;
          twt=twt+tmp->waiting_time;
         tmp =tmp-> next;
     }
     printf("Average waiting time: %.2fms\n",twt/5.0);
+     // fprintf(ofile,"Average waiting time: %.2fms\n",twt/5.0);
     
 }
 void SJF(){
     printf("shortest Job first \n");
-     sort_burst_time(jobs);
-                     show(jobs);
+    struct node *temp1 = jobs;
+     sort_burst_time(temp1);
+                     show(temp1);
        
   int total;
     int c=0,wt=0,twt=0,lbt=0;
-    while(jobs!=NULL){
-        jobs->waiting_time=c-jobs->arrival_time;
-        c=c+jobs->burst_time;
-           printf("P%d: %dms\n",jobs->id, jobs->waiting_time);         
-         twt=twt+jobs->waiting_time;
-        jobs =jobs-> next;
+    while(temp1!=NULL){
+        temp1->waiting_time=c-temp1->arrival_time;
+        c=c+temp1->burst_time;
+           printf("P%d: %dms\n",temp1->id, temp1->waiting_time);         
+         twt=twt+temp1->waiting_time;
+        temp1 =temp1-> next;
     }
     printf("Average waiting time: %.2fms\n",twt/5.0);
+    
     
     }
      
@@ -393,20 +401,44 @@ void SJF(){
 void pr(){
 
     printf("priorityy scheduling\n");
-        sort_priority(jobs);
-                     show(jobs);
-    int c=0;
-    while(jobs!=NULL){
-        jobs->waiting_time=c-jobs->arrival_time;
-        c=c+jobs->burst_time;
-         printf("P%d: %dms\n",jobs->id, jobs->waiting_time);       
-        jobs = jobs->next;
-
+        struct node *temp = jobs;
+        sort_priority(temp);
+                     show(temp);
+    int c=0; int twt=0;
+    while(temp!=NULL){
+        temp->waiting_time=c-temp->arrival_time;
+        c=c+temp->burst_time;
+         printf("P%d: %dms\n",temp->id, temp->waiting_time);          
+        twt=twt+temp->waiting_time;
+        temp =temp-> next;
     }
+    printf("Average waiting time: %.2fms\n",twt/5.0);
 }
 void ROUNDROBIN(){
     int a;
  printf("please Enter time quantum: \n");
                     scanf("%d",&a);
                 
+                int total;
+    int c=0,wt=0,twt=0,lbt=0;
+    while(jobs!=NULL){
+         if (jobs->burst_time > a) {
+         
+            jobs->burst_time -= a;
+      jobs->waiting_time+=c;
+        c+=a;
+         }
+        else{
+                jobs->waiting_time+=c;
+                c+=jobs->burst_time;
+                jobs->burst_time=0;
+            }
+           //printf("P%d: %dms\n",jobs->id, jobs->waiting_time); 
+           jobs=jobs->next;  
+}
+        while(jobs !=NULL)
+    {
+     printf("\nwaiting time %d",jobs->waiting_time);
+        jobs = jobs->next;
+    }
 }
