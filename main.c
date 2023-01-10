@@ -122,6 +122,7 @@ void swap(struct node *a, struct node *b){
 
 }
 
+void grant_chart(){}
 void sort_burst_time(struct node *head) {
     int swapped;
     struct node *current;
@@ -139,7 +140,43 @@ void sort_burst_time(struct node *head) {
          while (current ->next!= last) {
         //      // Check if the current node's burst time is greater than the next node's burst time
               
-             if (current->burst_time > current->next->burst_time) {
+             if (current->burst_time > current->next->burst_time && current->arrival_time) {
+                // printf("we need swap\n");
+                swap(current,current->next);
+                 
+                  swapped=1;
+                  
+                  }
+                
+                  current=current->next;
+                       
+                  }
+                  last=current;
+            
+                
+    
+     } while (swapped);
+     
+   
+}
+void sort_priority(struct node *head) {
+    int swapped;
+    struct node *current;
+    struct node *last = NULL;
+
+    // Check if the list is empty or has only one node
+    if (head == NULL )
+        return;
+
+    
+   do {
+         swapped = 0;
+         current = head;
+       
+         while (current ->next!= last) {
+        //      // Check if the current node's burst time is greater than the next node's burst time
+              
+             if (current->priority > current->next->priority && current->arrival_time) {
                 // printf("we need swap\n");
                 swap(current,current->next);
                  
@@ -264,12 +301,13 @@ while ((opt = getopt(argc, argv, "f:o:")) != -1) {
                     break;
                     case 5:
                      
-                     
                         
                         break;
                         case 6:
                          pr();
-                        
+                     sort_priority(jobs);
+                     show(jobs);
+                     
                         
                         break;
                         case 7:
@@ -329,26 +367,42 @@ void FCFS( ){
     
 }
 void SJF(){
-    printf("shortest Job first ");
-      sort_burst_time(jobs);
+    printf("shortest Job first \n");
+     sort_burst_time(jobs);
                      show(jobs);
+       
   int total;
     int c=0,wt=0,twt=0,lbt=0;
     while(jobs!=NULL){
-    if(jobs->arrival_time == 0){
-            jobs->waiting_time = 0;
-            
+        jobs->waiting_time=c-jobs->arrival_time;
+        c=c+jobs->burst_time;
+           printf("P%d: %dms\n",jobs->id, jobs->waiting_time);         
+         twt=twt+jobs->waiting_time;
+        jobs =jobs-> next;
+    }
+    printf("Average waiting time: %.2fms\n",twt/5.0);
+    
+    }
+     
+    
     
 
-     
-    }
-    
-}
-}
+
+
 
 void pr(){
 
-    printf("priorityy scheduling");
+    printf("priorityy scheduling\n");
+        sort_priority(jobs);
+                     show(jobs);
+    int c=0;
+    while(jobs!=NULL){
+        jobs->waiting_time=c-jobs->arrival_time;
+        c=c+jobs->burst_time;
+         printf("P%d: %dms\n",jobs->id, jobs->waiting_time);       
+        jobs = jobs->next;
+
+    }
 }
 void ROUNDROBIN(){
     int a;
